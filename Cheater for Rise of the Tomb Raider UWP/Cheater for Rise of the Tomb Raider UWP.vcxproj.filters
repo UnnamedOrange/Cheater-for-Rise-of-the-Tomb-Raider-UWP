@@ -24,6 +24,9 @@
     <ClCompile Include="Main Dialog.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="About Window.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -38,7 +41,13 @@
     <ClInclude Include="main.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Process Hook.hpp">
+    <ClInclude Include="Tip Window.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory Helper.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="About Window.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

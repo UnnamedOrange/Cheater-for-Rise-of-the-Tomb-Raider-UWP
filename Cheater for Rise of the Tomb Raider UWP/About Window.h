@@ -20,24 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#pragma once
 #include "pch.h"
-#include "resource.h"
-#include "main.h"
 
-#include "Main Dialog.h"
-
-Cheater instance;
-
-int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int)
+class AboutWindow : public TDialogBox
 {
-	return instance.Execute();
-}
+	virtual INT_PTR CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) override;
+	BOOL OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam);
+	VOID OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify);
 
-INT Cheater::Execute()
-{
-	std::unique_ptr<MainDialog> main(new MainDialog);
-	auto& param = main->AccessParam();
-	param.lpTemplateName = MAKEINTRESOURCEW(IDD_MAIN);
-	main->Create();
-	return 0;
-}
+public:
+	AboutWindow()
+	{
+		auto& param = AccessParam();
+		param.lpTemplateName = MAKEINTRESOURCEW(IDD_ABOUT);
+	}
+};

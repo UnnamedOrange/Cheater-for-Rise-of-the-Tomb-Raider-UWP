@@ -23,12 +23,42 @@
 #pragma once
 #include "pch.h"
 
+#include "Tip Window.hpp"
+#include "Memory Helper.hpp"
+#include "About Window.h"
+
 class MainDialog : public TDialogBox
 {
 	virtual INT_PTR CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) override;
 	BOOL OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam);
 	VOID OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify);
 
+	UINT WM_INITCHEATER = TMessage::Register(L"WM_INITCHEATER");
+	UINT WM_UNLOADCHEATER = TMessage::Register(L"WM_UNLOADCHEATER");
+	VOID InitCheater();
+	VOID UnloadCheater();
+
+private:
+	TipWindow tip;
+	AboutWindow about;
+
 private:
 	HANDLE hProcess = nullptr;
+	VOID OpenTheProcess(DWORD dwPid);
+	MemoryHelper helper =
+	{
+		MemoryHelper::Table((PVOID)0x7FF7F952B183,
+		5549329250676664617ull,
+		5549329250676664577ull),
+		MemoryHelper::Table((PVOID)0x7FF7F92F765E,
+		263617307062339942ull,
+		263617307062305126ull),
+		MemoryHelper::Table((PVOID)0x7FF7F929357B,
+		968148094884137ull,
+		968148094914704ull)
+	};
+
+	static const std::wstring strButton[2];
 };
+
+#define NUM_CHECK (3)
