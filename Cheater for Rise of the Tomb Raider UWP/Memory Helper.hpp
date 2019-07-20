@@ -38,6 +38,14 @@ public:
 private:
 	std::vector<Table> table;
 
+private:
+	PVOID pBase;
+public:
+	VOID SetBase(PVOID base)
+	{
+		pBase = base;
+	}
+
 public:
 	VOID append(const Table& t)
 	{
@@ -54,8 +62,9 @@ public:
 		const auto& t = table[idx];
 		DWORD64 val = NULL;
 		SIZE_T read = NULL;
-		ReadProcessMemory(hProcess, t.pAddress, &val,
-			sizeof(DWORD64), &read);
+
+		ReadProcessMemory(hProcess, (PVOID)((DWORD64)pBase + (DWORD64)t.pAddress),
+			&val, sizeof(DWORD64), &read);
 		if (read != sizeof(DWORD64))
 			throw std::runtime_error("fail to read memory!");
 
@@ -79,12 +88,12 @@ public:
 	VOID Apply(HANDLE hProcess, int idx)
 	{
 		const auto& t = table[idx];
-		WriteMemory(hProcess, t.pAddress, t.cheat);
+		WriteMemory(hProcess, (PVOID)((DWORD64)pBase + (DWORD64)t.pAddress), t.cheat);
 	}
 	VOID Revoke(HANDLE hProcess, int idx)
 	{
 		const auto& t = table[idx];
-		WriteMemory(hProcess, t.pAddress, t.origin);
+		WriteMemory(hProcess, (PVOID)((DWORD64)pBase + (DWORD64)t.pAddress), t.origin);
 	}
 
 public:

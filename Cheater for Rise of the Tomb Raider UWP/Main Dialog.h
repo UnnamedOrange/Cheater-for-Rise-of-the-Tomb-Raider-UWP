@@ -47,13 +47,13 @@ private:
 	VOID OpenTheProcess(DWORD dwPid);
 	MemoryHelper helper =
 	{
-		MemoryHelper::Table((PVOID)0x7FF7F952B183,
+		MemoryHelper::Table((PVOID)0x3EEB183,
 		5549329250676664617ull,
 		5549329250676664577ull),
-		MemoryHelper::Table((PVOID)0x7FF7F92F765E,
+		MemoryHelper::Table((PVOID)0x3CB765E,
 		263617307062339942ull,
 		263617307062305126ull),
-		MemoryHelper::Table((PVOID)0x7FF7F929357B,
+		MemoryHelper::Table((PVOID)0x3C5357B,
 		968148094884137ull,
 		968148094914704ull)
 	};

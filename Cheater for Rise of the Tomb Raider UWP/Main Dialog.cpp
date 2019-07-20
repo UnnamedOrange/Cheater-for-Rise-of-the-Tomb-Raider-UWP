@@ -100,6 +100,30 @@ VOID MainDialog::OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
 			{
 				if (std::wstring(pe32.szExeFile) == L"ROTTR_UAP.exe")
 				{
+
+					// 获取进程基址
+					HANDLE hSnapshot2;
+					// 通过 CreateToolhelp32Snapshot 和线程ID，获取进程快照
+					hSnapshot2 = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, pe32.th32ProcessID);
+					if (INVALID_HANDLE_VALUE == hSnapshot)
+						throw std::runtime_error("fail to create a snapshot.");
+					MODULEENTRY32W me32{ sizeof(MODULEENTRY32W) };
+					bRet = Module32FirstW(hSnapshot2, &me32);
+					if (!bRet)
+						throw std::runtime_error("fail to (Module32FirstW).");
+					while (bRet)
+					{
+						WCHAR szExt[5];
+						wcscpy_s(szExt, me32.szExePath + wcslen(me32.szExePath) - 4);
+						if (!wcscmp(szExt, L".exe"))
+						{
+							CloseHandle(hSnapshot2);
+							helper.SetBase(me32.hModule);
+							break;
+						}
+						bRet = Module32NextW(hSnapshot2, &me32);
+					};
+
 					OpenTheProcess(pe32.th32ProcessID);
 					bFound = TRUE;
 					break;
